@@ -4,11 +4,11 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import BoxSelector from "./Box/BoxSelector";
 import CharacterSelector from "./Selector/CharacterSelector";
 import TrashBin from "./TrashBin";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const BuilderContainer = () => {
 
-  const [ boxes, setBoxes ] = useState([]);
+  const [ boxes, setBoxes ] = useState({});
   
   const gridSize = 5;
   const letters = [
@@ -19,17 +19,50 @@ const BuilderContainer = () => {
   const symbols = ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "+", "=", "[", "]", "{", "}", "|", ";", ":", ",", ".", "<", ">", "/", "?", "~", "`"];
 
   
-  const handleDrop = (targetId, letterId) => {
-    console.log(`Dropped letter ${letterId} on cell ${targetId}`);
-    // Aquí puedes manejar la lógica después de soltar la letra como guardar en base de datos
+  const handleDrop = (targetId, character, boxSize) => {
+    console.log(`Dropped letter ${character} on cell ${targetId} of boxSize ${boxSize}`);
+
+    setBoxes(prevBoxes => {
+      const newBoxes = {...prevBoxes};
+  
+      if (!newBoxes[boxSize]) {
+        newBoxes[boxSize] = {};
+      }
+  
+      newBoxes[boxSize][targetId] = character;
+      return newBoxes;
+    });
   };
+
+  const handleDelete = (targetId, boxSize) => {
+    console.log(`Deleting letter from cell ${targetId} of boxSize ${boxSize}`);
+
+    setBoxes(prevBoxes => {
+        const newBoxes = { ...prevBoxes };
+
+        if (newBoxes[boxSize]) {
+            delete newBoxes[boxSize][targetId];
+        }
+
+        return newBoxes;
+    });
+};
+
+const clearBoxes = () => {
+  setBoxes({});
+};
+  
+  useEffect(() => {
+    console.log(boxes);
+  }, [boxes]);
+  
 
   return (
     <Flex direction='column' align='center' justify='center' h='92vh' w='100%'>
       <DndProvider backend={HTML5Backend}>
         <Flex mt='40px' h='75%' w='100%' justify='center' bg='whiteAlpha.400'>
           <Flex w='50%' justify='flex-end'>
-            <BoxSelector handleDrop={handleDrop} letters={letters} emojis={emojis} numbers={numbers} symbols={symbols}/>
+            <BoxSelector clearBoxes={clearBoxes} handleDelete={handleDelete} handleDrop={handleDrop}/>
           </Flex>
           <Flex w='50%'>
             <CharacterSelector letters={letters} emojis={emojis} numbers={numbers} symbols={symbols} />

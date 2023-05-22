@@ -4,10 +4,10 @@ import { useState } from "react";
 import { useDrop } from "react-dnd";
 import DraggableCharacter from "../DraggableCharacter";
 
-const DropZone = ({ id, onDrop, letters }) => {
+const DropZone = ({ id, onDrop, boxSize, handleDelete }) => {
   const [character, setCharacter] = useState(null);
 
-  const [{ isOver, canDrop }, drop] = useDrop(() => ({
+  const [{ isOver }, drop] = useDrop(() => ({
     accept: "letter",
     drop: (item, monitor) => {
       if (monitor.didDrop()) {
@@ -16,14 +16,18 @@ const DropZone = ({ id, onDrop, letters }) => {
 
       if (!character && item.source === 'characterSelector') {
         setCharacter(item.character);
-        onDrop(id, item.character);
+        onDrop(id, item.character, boxSize);
       }
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
-      canDrop: !!monitor.canDrop(),
     }),
   }));
+
+  const trashBinLetter = () => {
+    setCharacter(null);
+    handleDelete(id, boxSize);
+  }
 
   return (
     <Flex
@@ -32,10 +36,10 @@ const DropZone = ({ id, onDrop, letters }) => {
       align="center"
       justify='center'
       ref={drop}
-      bg={canDrop ? "yellow.700" : isOver ? "red.200" : "whiteAlpha.800"}
+      bg={isOver ? "blackAlpha.200" : 'whiteAlpha.800'}
     >
       {character !== null && (
-          <DraggableCharacter onDelete={setCharacter} character={character} isInDropZone={true}/>
+          <DraggableCharacter onDelete={trashBinLetter} character={character} isInDropZone={true}/>
       )}
     </Flex>
   );

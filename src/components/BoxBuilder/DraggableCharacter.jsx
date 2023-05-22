@@ -11,7 +11,7 @@ const DraggableCharacter = ({ isInDropZone, character, onDelete }) => {
     }),
     end: (item, monitor) => {
       if (isInDropZone && monitor.didDrop()) {
-        onDelete(null);
+        onDelete();
         console.log(item.character + ' borrado')
       }
     },
@@ -20,8 +20,8 @@ const DraggableCharacter = ({ isInDropZone, character, onDelete }) => {
   return (
     <Flex
       align="center"
-      h="60px"
-      w="60px"
+      h="70px"
+      w="70px"
       justify="center"
       bg="yellow.900"
       opacity={isDragging ? 0.5 : 1}

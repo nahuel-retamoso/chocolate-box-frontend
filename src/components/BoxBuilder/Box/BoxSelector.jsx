@@ -1,10 +1,10 @@
 import { Box, Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import DropZone from "./DropZone";
 
-const BoxSelector = ({ handleDrop, letters, emojis, numbers, symbols }) => {
-    const gridSize = 6;
+const BoxSelector = ({ handleDrop, handleDelete, clearBoxes }) => {
+
     return (
-            <Tabs variant='enclosed' isLazy>
+            <Tabs variant='enclosed' isLazy onChange={() => clearBoxes()}>
                 <TabList>
                     <Tab>Caja 6x6</Tab>
                     <Tab>Caja 6x8</Tab>
@@ -18,11 +18,11 @@ const BoxSelector = ({ handleDrop, letters, emojis, numbers, symbols }) => {
                             border="2px"
                             borderColor="whiteAlpha.900"
                             display="grid"
-                            gridTemplateColumns={`repeat(${gridSize}, 1fr)`}
+                            gridTemplateColumns={`repeat(6, 1fr)`}
                             gap={1}
                         >
-                            {Array.from({ length: gridSize * gridSize }, (_, i) => (
-                                <DropZone key={i} id={i} onDrop={handleDrop} letters={letters} />
+                            {Array.from({ length: 6 * 6 }, (_, i) => (
+                                <DropZone key={i} id={i} boxSize='6x6' handleDelete={handleDelete} onDrop={handleDrop}/>
                             ))}
                         </Box>
                     </TabPanel>
@@ -37,7 +37,7 @@ const BoxSelector = ({ handleDrop, letters, emojis, numbers, symbols }) => {
                             gap={1}
                         >
                             {Array.from({ length: 8 * 6 }, (_, i) => (
-                                <DropZone key={i} id={i} onDrop={handleDrop} letters={letters} emojis={emojis} numbers={numbers} symbols={symbols}/>
+                                <DropZone key={i} id={i} boxSize='8x6' handleDelete={handleDelete} onDrop={handleDrop}/>
                             ))}
                         </Box>
                     </TabPanel>
