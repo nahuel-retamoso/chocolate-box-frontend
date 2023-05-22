@@ -1,10 +1,10 @@
 import { Box, Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import DropZone from "./DropZone";
 
-const BoxSelector = ({ handleDrop, letters }) => {
-    const gridSize = 5;
+const BoxSelector = ({ handleDrop, letters, emojis, numbers, symbols }) => {
+    const gridSize = 6;
     return (
-            <Tabs bg='red.900' variant='enclosed' isLazy>
+            <Tabs variant='enclosed' isLazy>
                 <TabList>
                     <Tab>Caja 6x6</Tab>
                     <Tab>Caja 6x8</Tab>
@@ -13,12 +13,10 @@ const BoxSelector = ({ handleDrop, letters }) => {
                 <TabPanels>
                     <TabPanel>
                         <Box
-                            bg="whiteAlpha.700"
+                            bg="blackAlpha.200"
                             p="10px"
                             border="2px"
                             borderColor="whiteAlpha.900"
-                            h="500px"
-                            w="500px"
                             display="grid"
                             gridTemplateColumns={`repeat(${gridSize}, 1fr)`}
                             gap={1}
@@ -30,18 +28,16 @@ const BoxSelector = ({ handleDrop, letters }) => {
                     </TabPanel>
                     <TabPanel>
                         <Box
-                            bg="whiteAlpha.700"
+                            bg="blackAlpha.200"
                             p="10px"
                             border="2px"
                             borderColor="whiteAlpha.900"
-                            h="500px"
-                            w="500px"
                             display="grid"
-                            gridTemplateColumns={`repeat(6, 1fr)`}
+                            gridTemplateColumns={`repeat(8, 1fr)`}
                             gap={1}
                         >
-                            {Array.from({ length: 6 * 8 }, (_, i) => (
-                                <DropZone key={i} id={i} onDrop={handleDrop} letters={letters} />
+                            {Array.from({ length: 8 * 6 }, (_, i) => (
+                                <DropZone key={i} id={i} onDrop={handleDrop} letters={letters} emojis={emojis} numbers={numbers} symbols={symbols}/>
                             ))}
                         </Box>
                     </TabPanel>

@@ -1,10 +1,14 @@
-import { Flex } from "@chakra-ui/react";
+import { Box, Button, Flex } from "@chakra-ui/react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import BoxSelector from "./Box/BoxSelector";
 import CharacterSelector from "./Selector/CharacterSelector";
+import TrashBin from "./TrashBin";
+import { useState } from "react";
 
 const BuilderContainer = () => {
+
+  const [ boxes, setBoxes ] = useState([]);
   
   const gridSize = 5;
   const letters = [
@@ -18,14 +22,25 @@ const BuilderContainer = () => {
   const handleDrop = (targetId, letterId) => {
     console.log(`Dropped letter ${letterId} on cell ${targetId}`);
     // Aquí puedes manejar la lógica después de soltar la letra como guardar en base de datos
-
   };
 
   return (
-    <Flex align='center' justify='center' h='92vh' w='100%' bg='red.900'>
+    <Flex direction='column' align='center' justify='center' h='92vh' w='100%'>
       <DndProvider backend={HTML5Backend}>
-        <BoxSelector handleDrop={handleDrop} letters={letters} />
-        <CharacterSelector letters={letters} emojis={emojis} numbers={numbers} symbols={symbols} />
+        <Flex mt='40px' h='75%' w='100%' justify='center' bg='whiteAlpha.400'>
+          <Flex w='50%' justify='flex-end'>
+            <BoxSelector handleDrop={handleDrop} letters={letters} emojis={emojis} numbers={numbers} symbols={symbols}/>
+          </Flex>
+          <Flex w='50%'>
+            <CharacterSelector letters={letters} emojis={emojis} numbers={numbers} symbols={symbols} />
+          </Flex>
+        </Flex>
+        <Flex h='25%' w='100%' align='center' justify='center' gap='600px'>
+          <TrashBin/>
+          <Button>
+            Agregar al carrito
+          </Button>
+        </Flex>
       </DndProvider>
     </Flex >
     );

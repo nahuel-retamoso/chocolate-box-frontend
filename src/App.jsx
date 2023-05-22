@@ -24,8 +24,8 @@ function App() {
     <Home />,
     <BuilderContainer />,
     <Form/>,
-    <SuccesMessage/>,
-    <Checkout/>
+    <Checkout/>,
+    <SuccesMessage/>
   ];
   
 
@@ -68,7 +68,7 @@ function App() {
     <BrowserRouter>
       <ChakraProvider>
         <NavBar />
-        <Flex justifyContent="space-between" alignItems="center" h="92vh" bg='red.900'>
+        <Flex justifyContent="space-between" alignItems="center" h="92vh" bg='whiteAlpha.900'>
           <IconButton
             aria-label="Left Arrow"
             icon={<ChevronLeftIcon />}
@@ -97,10 +97,6 @@ function App() {
             onClick={handleRightClick}
           />
         </Flex>
-
-        <Routes>
-          <Route path="/login" element={<LoginContainer />} />
-        </Routes>
         <Footer />
       </ChakraProvider>
     </BrowserRouter>

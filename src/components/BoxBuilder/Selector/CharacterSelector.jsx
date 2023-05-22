@@ -1,5 +1,5 @@
-import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import DraggableLetter from "./DraggableLetter";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import CharacterTab from "./CharacterTab";
 
 const CharacterSelector = ({ letters, emojis, numbers, symbols }) => {
     return (
@@ -13,52 +13,16 @@ const CharacterSelector = ({ letters, emojis, numbers, symbols }) => {
 
             <TabPanels>
                 <TabPanel>
-                    <Box
-                        bg="blackAlpha.100"
-                        display="grid"
-                        gridTemplateColumns="repeat(7, 1fr)"
-                        gap="1rem"
-                    >
-                        {letters.map((letter, index) => (
-                            <DraggableLetter key={index} id={index} letter={letter} />
-                        ))}
-                    </Box>
+                    <CharacterTab characters={letters} />
                 </TabPanel>
                 <TabPanel>
-                    <Box
-                        bg="blackAlpha.100"
-                        display="grid"
-                        gridTemplateColumns="repeat(7, 1fr)"
-                        gap="1rem"
-                    >
-                        {emojis.map((emoji, index) => (
-                            <DraggableLetter key={index} id={index} letter={emoji} />
-                        ))}
-                    </Box>
+                    <CharacterTab characters={emojis} />
                 </TabPanel>
                 <TabPanel>
-                    <Box
-                        bg="blackAlpha.100"
-                        display="grid"
-                        gridTemplateColumns="repeat(7, 1fr)"
-                        gap="1rem"
-                    >
-                        {numbers.map((number, index) => (
-                            <DraggableLetter key={index} id={index} letter={number} />
-                        ))}
-                    </Box>
+                    <CharacterTab characters={numbers} />
                 </TabPanel>
                 <TabPanel>
-                    <Box
-                        bg="blackAlpha.100"
-                        display="grid"
-                        gridTemplateColumns="repeat(7, 1fr)"
-                        gap="1rem"
-                    >
-                        {symbols.map((symbol, index) => (
-                            <DraggableLetter key={index} id={index} letter={symbol} />
-                        ))}
-                    </Box>
+                    <CharacterTab characters={symbols} />
                 </TabPanel>
             </TabPanels>
         </Tabs>
