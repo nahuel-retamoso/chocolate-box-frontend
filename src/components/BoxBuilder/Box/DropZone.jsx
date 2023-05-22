@@ -1,11 +1,11 @@
 // DropZone.jsx
-import { Box, Flex } from "@chakra-ui/react";
-import { useState } from "react";
+import { Flex } from "@chakra-ui/react";
 import { useDrop } from "react-dnd";
 import DraggableCharacter from "../DraggableCharacter";
 
-const DropZone = ({ id, onDrop, boxSize, handleDelete }) => {
-  const [character, setCharacter] = useState(null);
+const DropZone = ({ id, onDrop, boxSize, handleDelete, boxValue }) => {
+  
+  const letter = boxValue?.[boxSize]?.letters?.[id] || null;
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "letter",
@@ -14,8 +14,7 @@ const DropZone = ({ id, onDrop, boxSize, handleDelete }) => {
         return;
       }
 
-      if (!character && item.source === 'characterSelector') {
-        setCharacter(item.character);
+      if (!letter && item.source === 'characterSelector') {
         onDrop(id, item.character, boxSize);
       }
     },
@@ -25,7 +24,6 @@ const DropZone = ({ id, onDrop, boxSize, handleDelete }) => {
   }));
 
   const trashBinLetter = () => {
-    setCharacter(null);
     handleDelete(id, boxSize);
   }
 
@@ -38,12 +36,11 @@ const DropZone = ({ id, onDrop, boxSize, handleDelete }) => {
       ref={drop}
       bg={isOver ? "blackAlpha.200" : 'whiteAlpha.800'}
     >
-      {character !== null && (
-          <DraggableCharacter onDelete={trashBinLetter} character={character} isInDropZone={true}/>
+      {letter !== null && (
+          <DraggableCharacter onDelete={trashBinLetter} character={letter} isInDropZone={true}/>
       )}
     </Flex>
   );
 };
 
 export default DropZone;
-

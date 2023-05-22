@@ -1,7 +1,7 @@
 import { Box, Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import DropZone from "./DropZone";
 
-const BoxSelector = ({ handleDrop, handleDelete, clearBoxes }) => {
+const BoxSelector = ({ handleDrop, handleDelete, clearBoxes, boxValue }) => {
 
     return (
             <Tabs variant='enclosed' isLazy onChange={() => clearBoxes()}>
@@ -15,6 +15,7 @@ const BoxSelector = ({ handleDrop, handleDelete, clearBoxes }) => {
                         <Box
                             bg="blackAlpha.200"
                             p="10px"
+                            w='fit-content'
                             border="2px"
                             borderColor="whiteAlpha.900"
                             display="grid"
@@ -22,7 +23,7 @@ const BoxSelector = ({ handleDrop, handleDelete, clearBoxes }) => {
                             gap={1}
                         >
                             {Array.from({ length: 6 * 6 }, (_, i) => (
-                                <DropZone key={i} id={i} boxSize='6x6' handleDelete={handleDelete} onDrop={handleDrop}/>
+                                <DropZone key={i} id={i} boxSize='6x6' handleDelete={handleDelete} boxValue={boxValue} onDrop={handleDrop}/>
                             ))}
                         </Box>
                     </TabPanel>
@@ -30,6 +31,7 @@ const BoxSelector = ({ handleDrop, handleDelete, clearBoxes }) => {
                         <Box
                             bg="blackAlpha.200"
                             p="10px"
+                            w='fit-content'
                             border="2px"
                             borderColor="whiteAlpha.900"
                             display="grid"
@@ -37,7 +39,7 @@ const BoxSelector = ({ handleDrop, handleDelete, clearBoxes }) => {
                             gap={1}
                         >
                             {Array.from({ length: 8 * 6 }, (_, i) => (
-                                <DropZone key={i} id={i} boxSize='8x6' handleDelete={handleDelete} onDrop={handleDrop}/>
+                                <DropZone key={i} id={i} boxSize='8x6' handleDelete={handleDelete} boxValue={boxValue} onDrop={handleDrop}/>
                             ))}
                         </Box>
                     </TabPanel>
