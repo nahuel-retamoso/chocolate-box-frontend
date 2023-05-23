@@ -5,8 +5,12 @@ import BoxSelector from "./Box/BoxSelector";
 import CharacterSelector from "./Selector/CharacterSelector";
 import TrashBin from "./TrashBin";
 import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { CartContext } from "../Contexts/CartContext";
 
 const BuilderContainer = () => {
+
+  const { addToCart } = useContext(CartContext);
 
   const [boxes, setBoxes] = useState({});
   const [currentSize, setCurrentSize] = useState();
@@ -22,18 +26,24 @@ const BuilderContainer = () => {
   const handleDrop = (targetId, character, boxSize) => {
     setCurrentSize(boxSize)
     console.log(`Dropped letter ${character} on cell ${targetId} of boxSize ${boxSize}`);
-
+  
     setBoxes(prevBoxes => {
       const newBoxes = { ...prevBoxes };
-
-      if (!newBoxes[boxSize]) {
-        newBoxes[boxSize] = { name: `Caja ${boxSize}`, letters: {} };
+  
+      if (Object.keys(newBoxes).length === 0) {
+        const newId = Date.now().toString();
+        newBoxes[newId] = { id: newId, boxSize: boxSize, name: `Caja ${boxSize}`, letters: {} };
       }
+  
+      // Get the first box's key in the state.
+      const firstBoxKey = Object.keys(newBoxes)[0];
 
-      newBoxes[boxSize].letters[targetId] = character;
+      newBoxes[firstBoxKey].letters[targetId] = character;
       return newBoxes;
     });
   };
+
+  
 
   const handleNameChange = (newName) => {
     setBoxes(prevBoxes => {
@@ -50,14 +60,17 @@ const BuilderContainer = () => {
 
   const handleDelete = (targetId, boxSize) => {
     console.log(`Deleting letter from cell ${targetId} of boxSize ${boxSize}`);
-
+  
     setBoxes(prevBoxes => {
       const newBoxes = { ...prevBoxes };
-
-      if (newBoxes[boxSize] && newBoxes[boxSize].letters) {
-        delete newBoxes[boxSize].letters[targetId];
+  
+      // Get the first box's key in the state.
+      const firstBoxKey = Object.keys(newBoxes)[0];
+  
+      if (newBoxes[firstBoxKey] && newBoxes[firstBoxKey].letters) {
+        delete newBoxes[firstBoxKey].letters[targetId];
       }
-
+  
       return newBoxes;
     });
   };
@@ -72,36 +85,37 @@ const BuilderContainer = () => {
   }, [boxes]);
 
   const isBoxComplete = () => {
-    if (!currentSize) {
-      console.log('No se ha seleccionado ninguna caja');
-      return false; // Devuelve false si no se ha seleccionado ninguna caja
-    }
-  
-    const currentBoxSize = currentSize;
-    const currentBox = boxes[currentBoxSize];
+    // Assuming boxes only has one box at a time.
+    const currentBox = Object.values(boxes)[0];
   
     if (!currentBox || !currentBox.letters) {
+      console.log('No se ha seleccionado ninguna caja');
       return false; // No current box, so it's not complete.
     }
   
     const letterCount = Object.keys(currentBox.letters).length;
   
     // Parse the dimensions of the box from the boxSize string.
-    const [width, height] = currentBoxSize.split('x').map(Number);
+    const [width, height] = currentBox.boxSize.split('x').map(Number);
     const boxCapacity = width * height;
   
     // The box is complete if the number of letters equals its capacity.
     return letterCount === boxCapacity;
-  };  
+  };
+  
 
 
-  const addToCart = () => {
+  const addButton = () => {
     if (isBoxComplete()) {
+      addToCart(boxes);
+      clearBoxes();
       console.log('Agregado al carrito');
     } else {
       console.log('La caja no esta completa');
     }
   }
+  
+  
 
 
   return (
@@ -121,7 +135,7 @@ const BuilderContainer = () => {
           <Button onClick={() => clearBoxes()}>
             Limpiar
           </Button>
-          <Button onClick={() => addToCart()}>
+          <Button onClick={() => addButton()}>
             Agregar al carrito
           </Button>
         </Flex>

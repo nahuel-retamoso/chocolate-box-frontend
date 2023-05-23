@@ -8,7 +8,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { useState } from 'react'
 import { motion, AnimatePresence } from "framer-motion";
-import Form from './components/FormView/Form'
 import SuccesMessage from './components/SuccesMessage/SuccesMessage'
 import Checkout from './components/Checkout/Checkout'
 
@@ -23,7 +22,6 @@ function App() {
   const views = [
     <Home />,
     <BuilderContainer />,
-    <Form/>,
     <Checkout/>,
     <SuccesMessage/>
   ];
@@ -68,7 +66,7 @@ function App() {
     <BrowserRouter>
       <ChakraProvider>
         <NavBar />
-        <Flex justifyContent="space-between" alignItems="center" h="92vh" bg='whiteAlpha.900'>
+        <Flex justifyContent="space-between" alignItems="center" h="88vh" bg={'#EEE3CB'}>
           <IconButton
             aria-label="Left Arrow"
             icon={<ChevronLeftIcon />}

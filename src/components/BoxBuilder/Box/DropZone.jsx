@@ -5,7 +5,8 @@ import DraggableCharacter from "../DraggableCharacter";
 
 const DropZone = ({ id, onDrop, boxSize, handleDelete, boxValue }) => {
   
-  const letter = boxValue?.[boxSize]?.letters?.[id] || null;
+  const boxKey = Object.keys(boxValue)[0];
+  const letter = boxValue?.[boxKey]?.letters?.[id] || null;  
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "letter",
