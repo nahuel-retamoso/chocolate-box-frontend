@@ -1,7 +1,7 @@
 import { Button, Box } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
-const PaymentButton = () => {
+const PaymentButton = ({isValid}) => {
 
     const [confirm, setConfirm] = useState(false);
 
@@ -59,7 +59,7 @@ const PaymentButton = () => {
 
     return (
         <Box>
-            {confirm == true ? null : <Button onClick={setPreferencesButton} bg='green.200' h='50px'>Confirmar</Button>}
+            {confirm == true ? null : <Button isDisabled={!isValid} onClick={setPreferencesButton} bg='green.200' h='50px'>Confirmar</Button>}
             <div id="wallet_container"></div>
         </Box>
     )

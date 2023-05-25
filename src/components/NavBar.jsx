@@ -16,8 +16,8 @@ const NavBar = () => {
     }, [cart]);
 
     return (
-        <Flex h='12vh' align='center' bg={'#EEE3CB'} justify='center'>
-        <Flex h='9vh' w='80%' bg={'whiteAlpha.700'} color='whiteAlpha.800' borderRadius='2xl' color='blackAlpha.800'>
+        <Flex h='16vh' align='center' bg={'#EEE3CB'} justify='center'>
+        <Flex h='9vh' w='80%' bg={'whiteAlpha.700'} borderRadius='2xl' color='blackAlpha.800'>
             <Text display='flex' alignItems='center' fontSize='3xl' w='50%' pl='40px'>Chocolates</Text>
             <Flex w='50%' justify='flex-end' align='center'>
             <Flex w='50%' pr='40px' justify='flex-end' align='center'>

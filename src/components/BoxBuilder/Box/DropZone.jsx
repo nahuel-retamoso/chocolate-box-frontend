@@ -30,8 +30,8 @@ const DropZone = ({ id, onDrop, boxSize, handleDelete, boxValue }) => {
 
   return (
     <Flex
-      h='70px'
-      w='70px'
+      h='60px'
+      w='60px'
       align="center"
       justify='center'
       ref={drop}

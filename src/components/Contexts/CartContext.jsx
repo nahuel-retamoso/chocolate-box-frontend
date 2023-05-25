@@ -9,12 +9,17 @@ export const CartProvider = ({ children }) => {
     setCart(prevCart => [...prevCart, item]);
   };
 
-  const removeFromCart = (itemId) => {
-    setCart(prevCart => prevCart.filter(item => item.id !== itemId));
-  };
+  const removeById = (id) => {
+    setCart((prevCart) => {
+        // Filtrar el array cart para obtener todas las cajas, excepto la que tiene el ID especificado.
+        const updatedCart = prevCart.filter((item) => Object.keys(item)[0] !== id.toString());
+
+        return updatedCart;
+    });
+};
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+    <CartContext.Provider value={{ cart, addToCart, removeById }}>
       {children}
     </CartContext.Provider>
   );

@@ -20,8 +20,8 @@ const DraggableCharacter = ({ isInDropZone, character, onDelete }) => {
   return (
     <Flex
       align="center"
-      h="70px"
-      w="70px"
+      h="60px"
+      w="60px"
       justify="center"
       bg="yellow.900"
       opacity={isDragging ? 0.5 : 1}

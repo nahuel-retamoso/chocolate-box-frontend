@@ -3,7 +3,7 @@ import CharacterTab from "./CharacterTab";
 
 const CharacterSelector = ({ letters, emojis, numbers, symbols }) => {
     return (
-        <Tabs isLazy variant='enclosed' ml='100px'>
+        <Tabs isLazy variant='enclosed'>
             <TabList>
                 <Tab>Letras</Tab>
                 <Tab>Emojis</Tab>

@@ -66,7 +66,7 @@ function App() {
     <BrowserRouter>
       <ChakraProvider>
         <NavBar />
-        <Flex justifyContent="space-between" alignItems="center" h="88vh" bg={'#EEE3CB'}>
+        <Flex justifyContent="space-between" alignItems="center" h="85vh" bg={'#EEE3CB'}>
           <IconButton
             aria-label="Left Arrow"
             icon={<ChevronLeftIcon />}

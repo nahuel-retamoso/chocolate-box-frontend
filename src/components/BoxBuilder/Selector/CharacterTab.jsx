@@ -5,10 +5,9 @@ const CharacterTab = ({ characters }) => {
 
     return (
         <Box
-            bg="blackAlpha.100"
             display="grid"
             gridTemplateColumns="repeat(5, 1fr)"
-            gap="0.6rem"
+            gap="0.35rem"
             p='8px'
         >
             {characters.map((character, index) => (
