@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Flex, HStack, Input, InputGroup, InputLeftAddon, InputRightElement, Select, Text, VStack, Icon, InputLeftElement } from "@chakra-ui/react";
 import PaymentButton from "./PaymentButton";
 import { EmailIcon, PhoneIcon, WarningIcon } from '@chakra-ui/icons';
+import citiesData from './cities.json';
+import { CartContext } from '../../Contexts/CartContext';
+import { useContext } from 'react';
 
 const Form = () => {
+
+    const { cart } = useContext(CartContext);
+
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -18,9 +24,10 @@ const Form = () => {
     const [isPhoneValid, setIsPhoneValid] = useState(true);
     const [isNumberValid, setIsNumberValid] = useState(true);
     const [isPostalCodeValid, setIsPostalCodeValid] = useState(true);
+    const [id, setId] = useState('')
 
-    const citiesCABA = ['Agronomía', 'Almagro', 'Balvanera', 'Barracas', 'Belgrano', 'Boedo', 'Caballito', 'Chacarita', 'Coghlan', 'Colegiales', 'Constitución', 'Flores', 'Floresta', 'La Boca', 'La Paternal', 'Liniers', 'Mataderos', 'Monserrat', 'Monte Castro', 'Nueva Pompeya', 'Núñez', 'Palermo', 'Parque Avellaneda', 'Parque Chacabuco', 'Parque Chas', 'Parque Patricios', 'Puerto Madero', 'Recoleta', 'Retiro', 'Saavedra', 'San Cristóbal', 'San Nicolás', 'San Telmo', 'Vélez Sársfield', 'Versalles', 'Villa Crespo', 'Villa del Parque', 'Villa Devoto', 'Villa Gral. Mitre', 'Villa Lugano', 'Villa Luro', 'Villa Ortúzar', 'Villa Pueyrredón', 'Villa Real', 'Villa Riachuelo', 'Villa Santa Rita', 'Villa Soldati', 'Villa Urquiza'];
-    const citiesPBA = ['General San Martin', 'Vicente Lopez', 'San Isidro'];
+    const citiesCABA = citiesData.citiesCABA;
+    const citiesPBA = citiesData.citiesPBA;
 
     const handleProvinceChange = (e) => {
         setProvince(e.target.value);
@@ -64,6 +71,36 @@ const Form = () => {
         );
     }
 
+    useEffect(() => {
+        const id = email + '_' + Date.now().toString() + '_' + Math.floor(Math.random() * 1000000).toString();
+        setId(id);
+    },[cart, name, email, phoneNumber, street, number, department, province, city, postalCode, neighborhood])
+
+    const generateOrder = () => {
+
+        const datosEnvio = {
+            name: name,
+            email: email,
+            phoneNumber: phoneNumber,
+            street: street,
+            number: number,
+            department: department,
+            province: province,
+            city: city,
+            postalCode: postalCode,
+            neighborhood: neighborhood,
+        }
+
+        const order = {
+            orderId: id,
+            items: cart,
+            datosEnvio: datosEnvio,
+            date: new Date(),
+            isPaid: false,
+        }
+        return order;
+    }
+
     return (
         <Flex w='40%' h='100%' direction="column" px='60px' pt='30px'>
             <VStack spacing='5'>
@@ -76,7 +113,7 @@ const Form = () => {
                         <EmailIcon color='blackAlpha.800' />
                     </InputLeftElement>
                     <Input
-                    variant='filled'
+                        variant='filled'
                         type='text'
                         value={email}
                         onChange={(e) => {
@@ -92,7 +129,7 @@ const Form = () => {
                         <PhoneIcon color='blackAlpha.800' />
                     </InputLeftElement>
                     <Input
-                    variant='filled'
+                        variant='filled'
                         type='text'
                         value={phoneNumber}
                         onChange={(e) => {
@@ -115,7 +152,7 @@ const Form = () => {
 
                     <InputGroup w='25%'>
                         <Input
-                        variant='filled'
+                            variant='filled'
                             placeholder='* Numero'
                             type='text'
                             value={number}
@@ -150,7 +187,7 @@ const Form = () => {
                 <HStack w='100%'>
                     <InputGroup w='35%'>
                         <Input
-                        variant='filled'
+                            variant='filled'
                             placeholder='* Codigo Postal'
                             type='text'
                             value={postalCode}
@@ -169,7 +206,7 @@ const Form = () => {
             </VStack>
             <HStack pt='60px'>
                 <Button w='50%' h='50px' bg='blackAlpha.200'>Ingresar / Crear Cuenta</Button>
-                <PaymentButton isValid={isFormValid()} />
+                <PaymentButton isValid={isFormValid()} generateOrder={generateOrder} orderId={id}/>
             </HStack>
         </Flex>
     )

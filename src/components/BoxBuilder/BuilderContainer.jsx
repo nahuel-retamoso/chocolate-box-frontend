@@ -34,7 +34,8 @@ const BuilderContainer = () => {
 
       if (Object.keys(newBoxes).length === 0) {
         const newId = Date.now().toString();
-        newBoxes[newId] = { id: newId, boxSize: boxSize, name: `Caja ${boxSize}`, letters: {} };
+        const newPrice = boxSize == '6x6' ? 1000.00 : boxSize == '8x8' ? 1500.00 : 2000.00;
+        newBoxes[newId] = { id: newId, boxSize: boxSize, name: `Caja ${boxSize}`, letters: {}, price: newPrice };
       }
 
       // Get the first box's key in the state.
