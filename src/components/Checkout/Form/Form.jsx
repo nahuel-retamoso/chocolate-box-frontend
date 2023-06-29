@@ -97,6 +97,7 @@ const Form = () => {
             datosEnvio: datosEnvio,
             date: new Date(),
             isPaid: false,
+            status: 'preparacion',
         }
         return order;
     }
@@ -206,7 +207,7 @@ const Form = () => {
             </VStack>
             <HStack pt='60px'>
                 <Button w='50%' h='50px' bg='blackAlpha.200'>Ingresar / Crear Cuenta</Button>
-                <PaymentButton isValid={isFormValid()} generateOrder={generateOrder} orderId={id}/>
+                <PaymentButton isValid={isFormValid()} generateOrder={generateOrder} orderId={id} userEmail={email}/>
             </HStack>
         </Flex>
     )

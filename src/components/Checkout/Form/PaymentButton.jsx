@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { CartContext } from "../../Contexts/CartContext";
 import { createOrder } from "../../../firebase/firestoreFunctions";
 
-const PaymentButton = ({ isValid, generateOrder, orderId }) => {
+const PaymentButton = ({ isValid, generateOrder, orderId, userEmail }) => {
 
     const { cart } = useContext(CartContext);
 
@@ -59,6 +59,7 @@ const PaymentButton = ({ isValid, generateOrder, orderId }) => {
             items: formattedItems,
             shippingCost: 100,
             orderId: orderId,
+            email: userEmail
         }
         
         console.log(dataToSend);
@@ -89,7 +90,7 @@ const PaymentButton = ({ isValid, generateOrder, orderId }) => {
                 }
             })
         
-        createOrder(generateOrder());
+        createOrder(generateOrder(), orderId);
     }
 
     return (

@@ -4,12 +4,14 @@ import Footer from './components/Footer'
 import NavBar from './components/NavBar'
 import LoginContainer from './components/Login/LoginContainer'
 import Home from './components/Home/Home'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { useState } from 'react'
 import { motion, AnimatePresence } from "framer-motion";
-import SuccesMessage from './components/SuccesMessage/SuccesMessage'
 import Checkout from './components/Checkout/Checkout'
+import OrderStatus from './components/OrderStatus/OrderStatus'
+import { useContext } from 'react'
+import { CartContext } from './components/Contexts/CartContext'
 
 
 
@@ -18,29 +20,43 @@ function App() {
   const [currentViewIndex, setCurrentViewIndex] = useState(0);
   const [direction, setDirection] = useState(1);
 
+  const { cart } = useContext(CartContext);
 
   const views = [
     <Home />,
     <BuilderContainer />,
-    <Checkout/>,
-    <SuccesMessage/>
+    <Checkout />,
   ];
-  
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLeftClick = () => {
-    if (currentViewIndex > 0) {
-      setDirection(-1);
-      setCurrentViewIndex((prevIndex) => prevIndex - 1);
+    const currentPath = location.pathname;
+    if (currentPath === "/builder") {
+      navigate("/");
+    } else if (currentPath === "/checkout") {
+      if (cart.length > 0) {
+        navigate("/builder");
+      } else {
+        console.log('El carrito está vacío');
+      }
     }
   };
   
   const handleRightClick = () => {
-    if (currentViewIndex < views.length - 1) {
-      setDirection(1);
-      setCurrentViewIndex((prevIndex) => prevIndex + 1);
+    const currentPath = location.pathname;
+    if (currentPath === "/") {
+      navigate("/builder");
+    } else if (currentPath === "/builder") {
+      if (cart.length > 0) {
+        navigate("/checkout");
+      } else {
+        console.log('El carrito está vacío');
+      }
     }
   };
-  
+
   const sliderVariants = {
     initial: (direction) => ({
       x: direction > 0 ? "100%" : "-100%",
@@ -59,11 +75,10 @@ function App() {
       opacity: 0,
     }),
   };
-  
-  
+
+
 
   return (
-    <BrowserRouter>
       <ChakraProvider>
         <NavBar />
         <Flex justifyContent="space-between" alignItems="center" h="85vh" bg={'#EEE3CB'}>
@@ -84,11 +99,14 @@ function App() {
               transition={{ duration: 0.5 }}
               w="100%"
             >
-              {views[currentViewIndex]}
+              <Routes>
+                <Route path="/" element={views[0]} />
+                <Route path="/builder" element={views[1]} />
+                <Route path="/checkout" element={views[2]} />
+                <Route path="/status" element={<OrderStatus />} />
+              </Routes>
             </Flex>
           </AnimatePresence>
-
-
           <IconButton
             aria-label="Right Arrow"
             icon={<ChevronRightIcon />}
@@ -97,8 +115,8 @@ function App() {
         </Flex>
         <Footer />
       </ChakraProvider>
-    </BrowserRouter>
   )
+
 }
 
 export default App
